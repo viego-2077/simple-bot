@@ -8,7 +8,6 @@ import os
 
 import aiohttp
 
-# ===== Đọc config =====
 
 with open("config.json", "r", encoding="utf-8") as f:
 
@@ -20,7 +19,6 @@ intents.message_content = True
 
 intents.members = True
 
-# ===== Xử lý prefix =====
 
 prefix = config.get("prefix", "!")
 
@@ -32,9 +30,9 @@ else:
 
     prefixes = [prefix]
 
-print(f"📦 Prefix hiện tại: {prefixes}")
+print(f"Prefix hiện tại: {prefixes}")
 
-# ===== Khởi tạo bot =====
+
 
 bot = commands.Bot(
 
@@ -46,7 +44,6 @@ bot = commands.Bot(
 
 )
 
-# ===== Tải các lệnh trong thư mục commands =====
 
 async def load_commands():
 
@@ -56,27 +53,27 @@ async def load_commands():
 
             await bot.load_extension(f"commands.{filename[:-3]}")
 
-            print(f"✅ Đã tải {filename}")
+            print(f"Đã tải {filename}")
 
-# ===== Khi bot online =====
+
 
 @bot.event
 
 async def on_ready():
 
-    # ⚙️ Tạo aiohttp session tại đây (đúng thời điểm có event loop)
+
 
     if not hasattr(bot, "session") or bot.session.closed:
 
         bot.session = aiohttp.ClientSession()
 
-    print(f"✅ Bot đã đăng nhập thành công dưới tên {bot.user}!")
+    print(f"Bot Login: {bot.user}!")
 
     await load_commands()
 
-    print("📦 Đã tải tất cả command modules.")
+    print("Đã tải tất cả command.")
 
-# ===== Khi bot tắt =====
+
 
 @bot.event
 
@@ -86,6 +83,6 @@ async def on_close():
 
         await bot.session.close()
 
-# ===== Chạy bot =====
+
 
 bot.run(config["token"])
