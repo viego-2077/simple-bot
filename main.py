@@ -1,3 +1,5 @@
+# creator: 2077 
+
 import discord
 
 from discord.ext import commands
